@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+const User = (sequelize, DataTypes) => {
+  const UserModel = sequelize.define('User', {
     id: {
       allowNull: false,
       primaryKey: true,
@@ -24,11 +24,13 @@ module.exports = (sequelize, DataTypes) => {
     },
   },
   {
-    tableName: 'users',
-    timestamps: false,
     underscored: true,
+    timestamps: false,
+    tableName: 'users',
   },
   );
 
-  return User;
+  return UserModel;
 };
+
+module.exports = User;
