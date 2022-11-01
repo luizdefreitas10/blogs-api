@@ -10,6 +10,7 @@ const sequelize = new Sequelize(config.test);
 
 const ALREADY_REGISTERED = 'User already registered';
 const INTERNAL_ERROR = 'Internal server error';
+const USER_NOT_FOUND = 'User does not exist';
 
 const createNewUser = async (body) => {
   const { displayName, email, password, image = null } = body;
@@ -34,4 +35,11 @@ const createNewUser = async (body) => {
 const getAllUsers = async () => User
   .findAll({ attributes: ['id', 'displayName', 'email', 'image'] });
 
-module.exports = { createNewUser, getAllUsers };
+const getUserById = async (id) => {
+  const user = await User
+    .findOne({ attributes: ['id', 'displayName', 'email', 'image'], where: { id } });
+    if (user === null) throw errorHandler(404, USER_NOT_FOUND);
+    return user;
+};
+
+module.exports = { createNewUser, getAllUsers, getUserById };
