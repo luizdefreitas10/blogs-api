@@ -25,6 +25,8 @@ const createNewCategory = async (body) => {
   }
 };
 
-module.exports = { createNewCategory };
+const getAllCategories = async () => Category.findAll();
+
+module.exports = { createNewCategory, getAllCategories };
 
 // https://sequelize.org/docs/v6/other-topics/transactions/
