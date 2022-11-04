@@ -1,5 +1,5 @@
-const Category = (Sequelize, DataTypes) => {
-  const categoryModel = Sequelize.define(
+module.exports = (Sequelize, DataTypes) => {
+  const Category = Sequelize.define(
     'Category',
     {
       id: {
@@ -19,11 +19,9 @@ const Category = (Sequelize, DataTypes) => {
     },
   );
 
-  categoryModel.associate = (models) => {
-    categoryModel.hasMany(models.PostCategory, { foreignKey: 'category_id', as: 'categories' });
+  Category.associate = (models) => {
+    Category.hasMany(models.PostCategory, { foreignKey: 'category_id', as: 'categories' });
   };
 
-  return categoryModel;
+  return Category;
 };
-
-module.exports = Category;

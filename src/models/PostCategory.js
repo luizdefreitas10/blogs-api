@@ -9,7 +9,7 @@ module.exports = (Sequelize, DataTypes) => {
           model: 'blog_posts',
           key: 'id',
         },
-        field: 'post_id',
+
       },
       categoryId: {
         allowNull: false,
@@ -18,12 +18,12 @@ module.exports = (Sequelize, DataTypes) => {
           model: 'categories',
           key: 'id',
         },
-        field: 'category_id',
       },
     },
     {
       underscored: true,
       timestamps: false,
+      tableName: 'posts_categories',
     },
   );
 
@@ -32,6 +32,8 @@ module.exports = (Sequelize, DataTypes) => {
       models.Category,
       {
         foreignKey: 'category_id',
+        otherKey: 'post_id',
+        as: 'categories',
         through: PostCategory,
       },
     );
@@ -40,6 +42,8 @@ module.exports = (Sequelize, DataTypes) => {
       models.BlogPost,
       {
         foreignKey: 'post_id',
+        otherKey: 'category_id',
+        as: 'posts',
         through: PostCategory,
       },
     );

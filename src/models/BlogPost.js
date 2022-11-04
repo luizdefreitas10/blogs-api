@@ -1,5 +1,5 @@
-const BlogPost = (Sequelize, DataTypes) => {
-  const BlogPostModel = Sequelize.define(
+module.exports = (Sequelize, DataTypes) => {
+  const BlogPost = Sequelize.define(
     'BlogPost',
     {
       id: {
@@ -24,6 +24,8 @@ const BlogPost = (Sequelize, DataTypes) => {
           model: 'users',
           key: 'id',
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       published: {
         allowNull: false,
@@ -36,16 +38,15 @@ const BlogPost = (Sequelize, DataTypes) => {
     },
     {
       underscored: true,
-      timestamps: false,
+      updatedAt: 'updated',
+      createdAt: 'published',
     },
   );
 
-  BlogPostModel.associate = (models) => {
-    BlogPostModel.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
-    BlogPostModel.hasMany(models.PostCategory, { foreignKey: 'post_id', as: 'posts' });
+  BlogPost.associate = (models) => {
+    BlogPost.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+    BlogPost.hasMany(models.PostCategory, { foreignKey: 'post_id', as: 'posts' });
   };
 
-  return BlogPostModel;
+  return BlogPost;
 };
-
-module.exports = BlogPost;
