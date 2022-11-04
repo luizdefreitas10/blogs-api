@@ -11,6 +11,7 @@ const tokenValidationMiddleware = (req, res, next) => {
   }
 
   try {
+    console.log(tokenValidation(authorization));
     tokenValidation(authorization);
   } catch (_error) {
     return res.status(401).json({ message: INVALID_TOKEN });

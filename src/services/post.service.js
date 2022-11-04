@@ -9,10 +9,8 @@ const postSchemaValidation = require('../validations/post.schema');
 const POST_ID = 'post_id';
 const CATEGORY_ID = 'category_id';
 const NOT_FOUND = 'one or more "categoryIds" not found';
-const SERVER_ERROR = 'Internal server error';
 
   const createNewPost = async (body, userId) => {
-    console.log(userId);
     const { error } = postSchemaValidation.validate(body);
     if (error) throw errorHandler(400, error.message);
 
@@ -32,11 +30,9 @@ const SERVER_ERROR = 'Internal server error';
         body.categoryIds.map((categoryId) => (
           { [CATEGORY_ID]: categoryId, [POST_ID]: newPost.id })), { transaction },
       );
-
       await transaction.commit(); return newPost;
-    } catch (error) {
-      console.log(error.message);
-      await transaction.rollback(); throw errorHandler(500, error.message);
+    } catch (err) {
+      await transaction.rollback(); throw errorHandler(500, err.message);
     }
   };
 
